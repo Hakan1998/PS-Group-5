@@ -1,60 +1,121 @@
 .. _forecast:
 
 ==============
-Forecast
+Data Preprocessing
 ==============
 
-Einführung
------------
+.. _process_taxi_data:
 
-Der Forecast ist ein wichtiges Instrument für die Vorhersage von zukünftigen Ereignissen oder Entwicklungen basierend auf historischen Daten und aktuellen Trends. In dieser Dokumentation werden wir die wichtigsten Konzepte und Methoden zur Erstellung eines Forecasts erklären.
+process_taxi_data Function
+===========================
 
-Vorgehensweise
---------------
+.. function:: process_taxi_data(data_train, shapefile_path)
 
-Um einen Forecast zu erstellen, folgen wir in der Regel einem bestimmten Prozess:
+   This function processes taxi data by performing spatial operations with zone shapefiles.
 
-1. **Datenerfassung und Vorbereitung**: Sammle und bereite die relevanten Daten vor, die für den Forecast benötigt werden. Dies können historische Verkaufsdaten, Wetterdaten, Finanzdaten oder andere relevante Informationen sein.
+   :param data_train: A pandas DataFrame containing taxi data.
+   :type data_train: pandas.DataFrame
+   :param shapefile_path: The file path to the shapefile containing zone information.
+   :type shapefile_path: str
+   :return: A pandas DataFrame with processed taxi data including zone and borough information.
+   :rtype: pandas.DataFrame
 
-2. **Explorative Datenanalyse (EDA)**: Führe eine explorative Datenanalyse durch, um die Daten zu verstehen und Muster oder Trends zu identifizieren. Dies kann die Visualisierung von Daten, die Berechnung von statistischen Kennzahlen und die Identifizierung von Ausreißern umfassen.
+To match each pickup Coordinates with the specific zone of Manhatten:
 
-3. **Auswahl des Forecast-Modells**: Wähle das geeignete Modell für den Forecast basierend auf den Eigenschaften der Daten und den spezifischen Anforderungen des Projekts. Dies kann die Verwendung von Zeitreihenmodellen, Regressionsmodellen, maschinellen Lernalgorithmen oder anderen Techniken umfassen.
+This function loads the zone shapefile specified by ``shapefile_path``, transforms it to EPSG:4326 coordinate system for consistent comparison, and performs spatial operations with the taxi data provided in the DataFrame ``data_train``. It extracts relevant columns such as "Trip_Pickup_DateTime", "pickup_day", "pickup_hour", "Start_Lon", "Start_Lat", "geometry", "zone", and "borough". The resulting DataFrame includes these columns along with zone and borough information merged from the shapefile. The function returns this processed DataFrame.
 
-4. **Modellierung und Bewertung**: Trainiere das ausgewählte Modell mit den Trainingsdaten und bewerte seine Leistung mit den Testdaten. Dies kann die Berechnung von Metriken wie Mean Absolute Error (MAE), Mean Squared Error (MSE) und anderen Evaluationsmaßen umfassen.
+   Example Usage::
 
-5. **Forecast-Erstellung und Validierung**: Verwende das trainierte Modell, um zukünftige Werte oder Prognosen zu generieren, und validiere diese Prognosen mit den tatsächlichen Beobachtungen. Dies kann die Erstellung von Konfidenzintervallen und die Analyse von Residualen umfassen.
+      import geopandas as gpd
+      import pandas as pd
 
-Beispiel
------------
+      def process_taxi_data(data_train, shapefile_path):
+          gdf_zones = gpd.read_file(shapefile_path).to_crs('EPSG:4326')
+          gdf_taxi = gpd.GeoDataFrame(data_train, geometry=gpd.points_from_xy(data_train['Start_Lon'], data_train['Start_Lat']))
+          gdf_taxi.crs = "EPSG:4326"
+          taxi_with_zones = gpd.sjoin(gdf_taxi, gdf_zones, how='left', op='within')
+          result_df = pd.merge(taxi_with_zones[["Trip_Pickup_DateTime", "pickup_day", "pickup_hour", "Start_Lon", "Start_Lat", "geometry", "zone", "borough"]].rename(columns={'geometry': 'geo_point'}),
+                                   gdf_zones[['zone', 'borough', 'geometry']], on=['zone', 'borough'], how='left')
+          return result_df
 
-Um diese Konzepte zu veranschaulichen, betrachten wir ein einfaches Beispiel für einen Forecast:
+      # Example usage
+      data = ...  # Load taxi data
+      shapefile_path = "/path/to/shapefile.shp"
+      processed_data = process_taxi_data(data, shapefile_path)
 
-.. code-block:: python
+.. _one_hour_time_binning:
 
-   import pandas as pd
-   from statsmodels.tsa.arima.model import ARIMA
+.. _one_hour_time_binning:
 
-   # Laden der Daten
-   data = pd.read_csv('sales_data.csv')
+one_hour_time_binning Function
+===============================
 
-   # Modellierung mit ARIMA
-   model = ARIMA(data['Sales'], order=(1, 1, 1))
-   model_fit = model.fit()
+.. function:: one_hour_time_binning(data_frame)
 
-   # Forecast für die nächsten 5 Perioden
-   forecast = model_fit.forecast(steps=5)
+   This function bins the pickup times into 1-hour intervals and aggregates trip counts for each zone.
 
-   print("Forecast:", forecast)
+   :param data_frame: A pandas DataFrame containing taxi data.
+   :type data_frame: pandas.DataFrame
+   :return: A pandas DataFrame with trip counts aggregated by zone and 1-hour time intervals.
+   :rtype: pandas.DataFrame
 
-Dieses Beispiel zeigt, wie man einen einfachen Forecast mit dem ARIMA-Modell aus der `statsmodels`-Bibliothek durchführt.
+   This function takes a DataFrame ``data_frame`` containing taxi data and processes it by binning the pickup times into 1-hour intervals. It first converts the 'Trip_Pickup_DateTime' column to datetime format. Then, it defines time bins with 1-hour frequency spanning from the minimum to the maximum pickup time. Next, it creates a new column 'time_bin' based on these time bins using the ``pd.cut`` function. After binning, the function returns the processed DataFrame.
 
-Schlussfolgerung
---------------
+.. _make_forecast:
 
-Der Forecast ist ein leistungsstarkes Werkzeug für die Vorhersage von zukünftigen Ereignissen oder Entwicklungen und wird in vielen Bereichen wie Wirtschaft, Finanzen, Meteorologie, Vertrieb und Marketing eingesetzt. Durch die richtige Datenerfassung, Modellierung und Bewertung können präzise und zuverlässige Prognosen erstellt werden, die bei der Entscheidungsfindung unterstützen können.
+make_forecast Function
+=======================
 
-Weitere Ressourcen
---------------
+.. function:: make_forecast(model, df)
 
-- `ARIMA Modell <https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model.ARIMA.html>`_
-- `Pandas Dokumentation <https://pandas.pydata.org/docs/>`_
+   This function makes a forecast using the given model and DataFrame.
+
+   :param model: A Prophet model used for forecasting.
+   :type model: Prophet
+   :param df: A pandas DataFrame containing historical data.
+   :type df: pandas.DataFrame
+   :return: A pandas DataFrame with the forecast.
+   :rtype: pandas.DataFrame
+
+   This function generates a forecast using the provided Prophet model and historical data DataFrame ``df``. It first creates a future DataFrame with a specified number of periods (28 days * 24 hours per day), excluding the historical data, using the ``make_future_dataframe`` method of the model. Then, it generates the forecast using the ``predict`` method of the model. The resulting forecast DataFrame is returned.
+
+.. _tune_prophet_parameters:
+
+tune_prophet_parameters Function
+=================================
+
+.. function:: tune_prophet_parameters(df, param_grid)
+
+   This function tunes Prophet parameters and returns the best parameters.
+
+   :param df: A pandas DataFrame containing historical data.
+   :type df: pandas.DataFrame
+   :param param_grid: A dictionary containing parameter names as keys and lists of parameter values to be tuned as values.
+   :type param_grid: dict
+   :return: The best parameters for the Prophet model.
+   :rtype: dict
+
+   This function tunes Prophet parameters using cross-validation on the provided historical data DataFrame ``df``. It iterates over all possible combinations of parameters specified in ``param_grid``, fits a Prophet model with each combination, performs cross-validation, calculates the Mean Absolute Percentage Error (MAPE) or Mean Squared Error (MSE) as a performance metric, and returns the parameters resulting in the lowest error.
+
+.. _calculate_mape:
+
+calculate_mape Function
+========================
+
+.. function:: calculate_mape(table, forecast_column, actual_column)
+
+   This function calculates the Mean Absolute Percentage Error (MAPE) between forecasted and actual values.
+
+   :param table: A pandas DataFrame containing forecasted and actual values.
+   :type table: pandas.DataFrame
+   :param forecast_column: The name of the column containing forecasted values.
+   :type forecast_column: str
+   :param actual_column: The name of the column containing actual values.
+   :type actual_column: str
+   :return: The calculated MAPE.
+   :rtype: float
+
+   This function computes the MAPE between the forecasted values in the column ``forecast_column`` and the actual values in the column ``actual_column`` of the DataFrame ``table``. It returns the calculated MAPE as a float value.
+
+
+
