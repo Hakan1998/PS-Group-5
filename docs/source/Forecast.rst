@@ -11,8 +11,6 @@ Data Source: https://opendata.cityofnewyork.us/
 
    https://github.com/Hakan1998/NYC-Taxi-Demand-Forecast
 
-Data Preprocessing
-==================
 
 Spatial Analysis
 ----------------
