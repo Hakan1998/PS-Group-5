@@ -15,4 +15,4 @@ Contents
    usage
    api
    DataPreprocessing
-
+   Forecasting
