@@ -47,32 +47,32 @@ Function: Get OD Pairs
 
     def getODPairs(hourly_trip_counts, forecast):
 
-        # Extrahiere die Stunden des Tages und die Tage des Monats aus der DateTime-Spalte
+        # Extract the hours of the day and the days of the month from the DateTime column
         hourly_trip_counts['Hour'] = pd.to_datetime(hourly_trip_counts['DateTime']).dt.hour
         hourly_trip_counts['Day'] = pd.to_datetime(hourly_trip_counts['DateTime']).dt.day
 
-        # Erstelle eine Kreuztabelle mit der Anzahl der Trips, gruppiert nach Tagen, Stunden und end_zone
+        # Create a cross-tabulation with the number of trips, grouped by days, hours, and end_zone
         cross_table = pd.crosstab([hourly_trip_counts['start_zone'], hourly_trip_counts['Day'], hourly_trip_counts['Hour']],
                                    hourly_trip_counts['end_zone'],
                                    values=hourly_trip_counts['Trips'],
                                    aggfunc='sum',
                                    margins=True,
-                                   margins_name='Gesamt').fillna(0)
+                                   margins_name='Total').fillna(0)
 
-        # Berechne die prozentualen Werte
-        cross_table_percent = cross_table.div(cross_table['Gesamt'], axis=0).fillna(0)
+        # Calculate the percentage values
+        cross_table_percent = cross_table.div(cross_table['Total'], axis=0).fillna(0)
 
-        # Fusioniere den Prognose-Datenrahmen mit der prozentualen Kreuztabelle
+        # Merge the forecast DataFrame with the percentage cross-tabulation
         merged_data = pd.merge(forecast, cross_table_percent,
                                how='inner',
                                left_on=['start_zone', 'Day', 'Hour'],
-                               right_index=True).drop(columns=['Gesamt'])
+                               right_index=True).drop(columns=['Total'])
 
-        # Multipliziere die Prognosewerte mit den prozentualen Werten
-        for end_zone in cross_table_percent.columns[:-1]:  # Exclude 'Gesamt' column
+        # Multiply the forecast values by the percentage values
+        for end_zone in cross_table_percent.columns[:-1]:  # Exclude 'Total' column
             merged_data[end_zone] = merged_data['forecast_origin'] * merged_data[end_zone]
 
-        # Runde die Ergebnisse
+        # Round the results
         rounded_data = merged_data.round(0)
 
         return rounded_data
