@@ -19,7 +19,7 @@ where:
 
 A simple way would be to compare the predicted OD pairs with the real pairs and calculate the loss function. 
 
-As we can see in the Heatmaps of Chapter 3 here the distributions are not constant: https://colab.research.google.com/drive/1VaifCYGzjBQ9H1SxjRtiXDMi6PvxZxRb#scrollTo=-t71LCPxJs3w. 
+As we can see in the Heatmaps of Chapter 3 here the distributions are not constant: https://github.com/Hakan1998/NYC-Taxi-Demand-Forecast/blob/main/PJ_Building_Digital_Twin.ipynb 
 
 As the effort involved was greater than the benefit, the approach only went as far as creating the OD pairs. An evaluation would not have been expedient for our Project. 
 
