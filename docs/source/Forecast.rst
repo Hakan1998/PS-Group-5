@@ -130,12 +130,6 @@ Time Binning
 
              return processed_data
 
-         # Example usage
-         data = ...  # Load processed taxi data
-         demand_data = one_hour_time_binning(data)
-
-         # Output the first few rows of the demand data
-         print(demand_data.head())
 
 EDA
 ===========
