@@ -8,7 +8,7 @@ The following section explains the most important stations of the forecast. In p
 
 Data Source: https://opendata.cityofnewyork.us/
 
-.. note: The Following Part only highlights the most important Functions.
+.. note::The Following Part only highlights the most important Functions.
 
    For detailled Information and examples look at the original Github:
 
