@@ -1,20 +1,22 @@
+
+
+
 The following section explains the most important stations of the forecast. In particular, the most relevant functions and their function will be explained. 
 
 Data Source: https://opendata.cityofnewyork.us/
-Fore more Details look at: 
 
-   **Related Links:**
+Fore more Details look at: 
 
   - `Projektseminar__Forecast_Model_.ipynb`_
 
 .. _Data Preprocessing:
 
 
-After a basic Data cleaning we want to know in which region how many pickups took place.
-Our Raw Data only contains the Info which Picktup had which pickup Coordinates. 
-
 process_taxi_data Function
 ===========================
+
+After a basic Data cleaning we want to know in which region how many pickups took place.
+Our Raw Data only contains the Info which Picktup had which pickup Coordinates. 
 
 .. function:: process_taxi_data(data_train, shapefile_path)
 
