@@ -1,19 +1,27 @@
 
+Data Preprocessing and Forecast
+=======================
+
 
 
 The following section explains the most important stations of the forecast. In particular, the most relevant functions and their function will be explained. 
 
 Data Source: https://opendata.cityofnewyork.us/
 
-Fore more Details look at: 
+.. note:: The Following Part only highlights the most important Functions.
 
-  - `Projektseminar__Forecast_Model_.ipynb`_
+   For detailled Information and examples look at the original Colab File:
+
+   https://colab.research.google.com/drive/1usWyVD_G52TCOtH607cu-6NoEHtpLEm2#scrollTo=YwZljMOKqvCy
+
 
 .. _Data Preprocessing:
 
-
-process_taxi_data Function
+Data Preprocessing
 ===========================
+
+Spatial Analysis
+----------------------------------
 
 After a basic Data cleaning we want to know in which region how many pickups took place.
 Our Raw Data only contains the Info which Picktup had which pickup Coordinates. 
