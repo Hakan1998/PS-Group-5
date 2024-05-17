@@ -60,7 +60,7 @@ Function: Find Best Cross-Validation Parameters
           
           return best_cv_params
 
-With theese Parameter we can start to make the Forecast and tune it:
+With these Parameter we can start to make the Forecast and tune it:
 
 Function: Make Forecast
 -----------------------
