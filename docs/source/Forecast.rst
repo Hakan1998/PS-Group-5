@@ -15,16 +15,15 @@ Data Source: https://opendata.cityofnewyork.us/
    https://colab.research.google.com/drive/1usWyVD_G52TCOtH607cu-6NoEHtpLEm2#scrollTo=YwZljMOKqvCy
 
 
-.. _Data Preprocessing:
-
 Data Preprocessing
-===========================
+===================
 
 Spatial Analysis
-----------------------------------
+----------------
 
-After a basic Data cleaning we want to know in which region how many pickups took place.
-Our Raw Data only contains the Info which Picktup had which pickup Coordinates. 
+After a basic data cleaning, we want to know in which region how many pickups took place. Our raw data only contains the information about which pickup had which pickup coordinates.
+
+.. _process_taxi_data:
 
 .. function:: process_taxi_data(data_train, shapefile_path)
 
@@ -37,7 +36,7 @@ Our Raw Data only contains the Info which Picktup had which pickup Coordinates.
    :return: A pandas DataFrame with processed taxi data including zone and borough information.
    :rtype: pandas.DataFrame
 
-   This function loads the zone shapefile specified by ``shapefile_path``, transforms it to EPSG:4326 coordinate system for consistent comparison, and performs spatial operations with the taxi data provided in the DataFrame ``data_train``. It extracts relevant columns such as "Trip_Pickup_DateTime", "pickup_day", "pickup_hour", "Start_Lon", "Start_Lat", "geometry", "zone", and "borough". The resulting DataFrame includes these columns along with zone and borough information merged from the shapefile. The function returns this processed DataFrame.
+   This function loads the zone shapefile specified by ``shapefile_path``, transforms it to the EPSG:4326 coordinate system for consistent comparison, and performs spatial operations with the taxi data provided in the DataFrame ``data_train``. It extracts relevant columns such as "Trip_Pickup_DateTime", "pickup_day", "pickup_hour", "Start_Lon", "Start_Lat", "geometry", "zone", and "borough". The resulting DataFrame includes these columns along with zone and borough information merged from the shapefile. The function returns this processed DataFrame.
 
    Example Usage::
 
@@ -57,6 +56,7 @@ Our Raw Data only contains the Info which Picktup had which pickup Coordinates.
       data = ...  # Load taxi data
       shapefile_path = "/path/to/shapefile.shp"
       processed_data = process_taxi_data(data, shapefile_path)
+
 
 
 
