@@ -10,9 +10,9 @@ Data Source: https://opendata.cityofnewyork.us/
 
 .. note:: The Following Part only highlights the most important Functions.
 
-   For detailled Information and examples look at the original Colab File:
+   For detailled Information and examples look at the original Github:
 
-   https://colab.research.google.com/drive/1usWyVD_G52TCOtH607cu-6NoEHtpLEm2#scrollTo=YwZljMOKqvCy
+   https://github.com/Hakan1998/NYC-Taxi-Demand-Forecast
 
 
 
