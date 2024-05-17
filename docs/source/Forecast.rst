@@ -1,4 +1,4 @@
-Data Preprocessing and Forecast
+Data Preprocessing
 ===============================
 
 The following section explains the most important stations of the forecast. In particular, the most relevant functions and their usage will be explained.
