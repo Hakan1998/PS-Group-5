@@ -5,7 +5,7 @@ Fore more Details look at:
 
    **Related Links:**
 
-  - `Jupyter Notebook Example &lt;./example_notebook.ipynb&gt;`_
+  - `Projektseminar__Forecast_Model_.ipynb`_
 
 .. _Data Preprocessing:
 
