@@ -46,11 +46,6 @@ After a basic data cleaning, we want to know in which region how many pickups to
                                    gdf_zones[['zone', 'borough', 'geometry']], on=['zone', 'borough'], how='left')
           return result_df
 
-      # Example usage
-      data = ...  # Load taxi data
-      shapefile_path = "/path/to/shapefile.shp"
-      processed_data = process_taxi_data(data, shapefile_path)
-
 Data Visualization
 ------------------
 
