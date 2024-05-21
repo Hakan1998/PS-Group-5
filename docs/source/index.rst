@@ -12,8 +12,8 @@ Contents
 
 .. toctree::
 
-   usage
-   api
+   Introduction
    DataPreprocessing
    Forecast
    OriginDestiny
+   Dashboard
