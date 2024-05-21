@@ -8,9 +8,9 @@ Contents
 
 .. toctree::
 
-   Introduction
-   DataPreprocessing
-   EDA
-   Forecast
-   OriginDestiny
-   Dashboard
+   1. Introduction
+   2. DataPreprocessing
+   3. EDA
+   4. Forecast
+   5. OriginDestiny
+   6. Dashboard
