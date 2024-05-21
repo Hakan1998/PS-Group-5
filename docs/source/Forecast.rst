@@ -7,7 +7,11 @@ Forecasting
 
    The hyperparameters are then tuned using cross validation, but now once for the whole of Manhattan and once for each zone.
 
-   The recommendations for cross validation and hyperparameter settings in the Prophet documentation were always followed by the official recommendation in the documentation: https://facebook.github.io/prophet/docs/diagnostics.html
+   The recommendations for cross validation and hyperparameter settings in the Prophet documentation were always followed by the official recommendation in the documentation: https://facebook.github.io/prophet/docs/diagnostics.html.
+
+   Here we only consider the highlight. For a detailed insight into the complete procedure, see:
+
+   https://github.com/Hakan1998/NYC-Taxi-Demand-Forecast/blob/main/Projektseminar__Forecast_Model_.ipynb
 
 Function: Find Best Cross-Validation Parameters
 ------------------------------------------------
